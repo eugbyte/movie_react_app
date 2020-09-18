@@ -12,6 +12,7 @@ import { Container, Typography, Select } from "@material-ui/core";
 import { ApiError } from "../models/ApiError";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { cloneDeep } from "lodash";
+import { SelectComponent } from "../components/SelectComponent";
 
 export function HomePage(): JSX.Element {
     const classes = useStyles();
@@ -27,16 +28,46 @@ export function HomePage(): JSX.Element {
 
     // Mutable states for filtering purposes
     const [movies, setMovies] = useState<Movie[]>([]);   
+
     const [year, setYear] = useState<number>();
-    let yearOptions: number[] = [];
+    let yearOptions: number[] = immutableMovies.map(movie => movie.productionYear);
+    yearOptions = [...new Set(yearOptions)];
+    yearOptions.sort();
+    const handleChangeYear = (event: React.ChangeEvent<any>) => {
+        let selectedYear: number = event.target.value;
+        setYear(selectedYear);
+    }
+
     const [genre, setGenre] = useState<string>();
-    let genreOptions: string[] = []; 
+    let genreOptions: string[] = immutableMovies.map(movie => movie.genre);
+    genreOptions = [...new Set(genreOptions)];
+    genreOptions.sort();
+    const handleChangeGenre = (event: React.ChangeEvent<any>) => {
+        let selectedGenre: string = event.target.value;
+        setGenre(selectedGenre);
+    }
+
+    const filterMoviesOnChange = () => {
+        let resultMovies: Movie[] = immutableMovies
+            .filter(movie => year ? movie.productionYear === year : true)
+            .filter(movie => genre ? movie.genre === genre : true);
+        setMovies(resultMovies);
+    }
+    // Whenever year or genre changes, filter the movie
+    useEffect(() => {
+        filterMoviesOnChange();
+    }, [year, genre])
 
     // Only on the first mount, GET movies
     useEffect(() => {
         const action = fetchMoviesAsync();
         dispatch(action);
-    }, []);
+    }, []);    
+
+    // Upon receiving GET results of movies
+    useEffect(() => {
+        setMovies(cloneDeep(immutableMovies));
+    }, [immutableMovies.length]);
 
     // Upon receiving an error, display notification
     useEffect(()=> {
@@ -44,15 +75,6 @@ export function HomePage(): JSX.Element {
             console.log("in HomePage. Errors:", error);
         }
     }, [error]);
-
-    // Upon receiving GET results of movies
-    useEffect(() => {
-        setMovies(cloneDeep(immutableMovies));
-
-        yearOptions = immutableMovies.map(movie => movie.productionYear);
-        genreOptions = immutableMovies.map(movie => movie.genre);
-        console.log(immutableMovies);
-    }, [immutableMovies.length]);
 
     const cards: JSX.Element[] = [];
 
@@ -70,15 +92,16 @@ export function HomePage(): JSX.Element {
         cards.push(card);
     }
 
-    useEffect(() => {
-        console.log(movies);
-    }, [movies.length]);
-    
     return <div>
         <Typography color="primary" align="center" variant="h3">Home</Typography>
         <Grid container spacing={2}>
             <Grid item xs={3}>
+                <SelectComponent title={"Year"} state={year} options={yearOptions} handleChange={handleChangeYear} />
             </Grid>
+            <Grid item xs={3}>
+                <SelectComponent title={"Genre"} state={genre} options={genreOptions} handleChange={handleChangeGenre} />
+            </Grid>
+            <Grid item xs={6}></Grid>
          </Grid>
         { movies.length > 0 &&
             <Grid className={classes.fullWidth}

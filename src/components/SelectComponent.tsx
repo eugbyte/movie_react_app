@@ -6,22 +6,26 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 interface IProp {
+    title: string;
     state: any;
     options: any[];
-    handleChange: () => any | void;
+    handleChange: (event: React.ChangeEvent<any>) => any | void;
 }
 
-export function SelectComponent({state, options, handleChange}: IProp): JSX.Element {
+export function SelectComponent({title, state, options, handleChange}: IProp): JSX.Element {
     const classes = useStyles();
 
     return <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">{title}</InputLabel>
         <Select labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={state}
-            onChange={handleChange} > 
+            onChange={event => handleChange(event)} > 
+            <MenuItem value={undefined}>
+                <em>None</em>
+            </MenuItem>
         {
-            options.map(option => <MenuItem value={option}>option</MenuItem>)
+            options.map(option => <MenuItem value={option}>{option}</MenuItem>)
         } 
         </Select>
   </FormControl>
