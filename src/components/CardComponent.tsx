@@ -5,6 +5,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { CardContent, Button, CardActions } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 interface IProp {
     title: string;
@@ -12,9 +16,11 @@ interface IProp {
     imgUrl: string;
     action?: (val: any) => any;
     actionTitle?: string;
+    showAccordion?: boolean;
+    accordionText?: string;
 }
 
-export function CardComponent({title, textDict, imgUrl="", action, actionTitle=""}: IProp) {
+export function CardComponent({title, textDict, imgUrl="", action, actionTitle="", showAccordion=false, accordionText=""}: IProp) {
     const classes = useStyles();
 
     const paras: JSX.Element[] = [];
@@ -25,14 +31,14 @@ export function CardComponent({title, textDict, imgUrl="", action, actionTitle="
         paras.push(para)
     }
 
-    return <Card className={ classes.outerCardDimensions }>
+    return <Card className={ showAccordion ? classes.expandedDimension : classes.minifiedDimensions }>
         <CardActionArea onClick={action}>
             <CardMedia 
                 component="img"
-                height="140"
+                //height="140"
                 className={classes.cardHeight}
                 image={imgUrl}
-                title="https://acowebs.com/impact-ecommerce-society/"/>
+                title={imgUrl}/>
         </CardActionArea>
         <CardContent>
             <Typography gutterBottom variant="h5" component="h2" color="primary">
@@ -46,21 +52,40 @@ export function CardComponent({title, textDict, imgUrl="", action, actionTitle="
                     {actionTitle}
                 </Button>
             </CardActions>  
-        }      
+        }     
+
+        { showAccordion &&
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header" >
+                        <Typography color="textSecondary">Show more</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    {accordionText}
+                </AccordionDetails>
+        </Accordion> 
+        }
+
+
+        
     </Card>
 }
 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    backdrop: {
-        
+    backdrop: {        
       zIndex: theme.zIndex.drawer + 1,
       color: "#fff"
     },
-    outerCardDimensions: {
-        maxWidth: 450,
-        height: 400
+    minifiedDimensions: {
+        maxWidth: 440,
+        height: 450
+    },
+    expandedDimension: {
+        width: 800,
     },
     cardHeight: {
         height: 200,

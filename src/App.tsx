@@ -1,12 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { HomePage } from './containers/HomePage';
+import { Route } from 'react-router-dom';
+import { Switch, BrowserRouter as Router } from 'react-router-dom';
+import { NavBar } from './components/NavBar';
+import { MovieDetailPage } from './containers/MovieDetailPage';
 
-function App() {
+function App(): JSX.Element {
+  
   return (
     <div className="App">
-      <HomePage />
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route path="/movieDetail/:movieName" component={ MovieDetailPage } />
+          <Route exact path="/" component={ HomePage } />
+        </Switch>
+      </Router>
     </div>
   );
 }
