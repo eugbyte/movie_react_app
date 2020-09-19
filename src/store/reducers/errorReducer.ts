@@ -1,6 +1,5 @@
 import { ACTIONS } from "../actionEnums";
 import { IErrorAction } from "../actions/errorAction";
-import { HTTP } from "../httpEnums";
 
 const initialState: IErrorAction = {
     type: "",

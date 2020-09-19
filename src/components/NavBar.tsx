@@ -14,7 +14,7 @@ export function NavBar() {
   return (
     <div>
       <Navbar expand="lg" variant="dark" style={{backgroundColor: "#3f51b5"}}>
-          <Navbar.Brand>Movie</Navbar.Brand>
+          <Navbar.Brand>Movies</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">

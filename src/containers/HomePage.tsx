@@ -8,14 +8,13 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import { CardComponent } from "../components/CardComponent";
 import { useHistory } from "react-router-dom";
-import { Container, Typography, Snackbar } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { ApiError } from "../models/ApiError";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { cloneDeep } from "lodash";
 import { SelectComponent } from "../components/SelectComponent";
-import { errorAction } from "../store/actions/errorAction";
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { ACTIONS } from "../store/actionEnums";
+import { ErrorNotification } from "../components/ErrorNotification";
+import { getImgUrl } from "../components/PictureUrlDict";
 
 export function HomePage(): JSX.Element {
     const classes = useStyles();
@@ -24,23 +23,8 @@ export function HomePage(): JSX.Element {
 
     // Single source of truth, immutable
     const immutableMovies: Movie[] = useSelector((action: RootState) => action.movieReducer.movies as Movie[]) ?? [];
-
-    // API Errors received if any
-    // To display error notification
+    //Error received from API call
     const error: ApiError | Error | null = useSelector((action: RootState) => action.errorReducer.error) ?? null;
-    const [openAlert, setOpenAlert] = useState<boolean>(false); 
-    const handleCloseAlert = () => {
-        setOpenAlert(false);
-        const cleanUpErrorAction = errorAction(ACTIONS.CLEAR_ERROR, error as ApiError | Error);
-        dispatch(cleanUpErrorAction);
-    }
-
-    useEffect(()=> {
-        if (error) {
-            console.log("in HomePage. Errors:", error);
-            setOpenAlert(true);
-        }
-    }, [error]);
 
     // Mutable movies for filtering purposes
     const [movies, setMovies] = useState<Movie[]>([]);   
@@ -85,9 +69,7 @@ export function HomePage(): JSX.Element {
     // Upon receiving GET results of movies
     useEffect(() => {
         setMovies(cloneDeep(immutableMovies));
-    }, [immutableMovies.length]);
-
-    
+    }, [immutableMovies.length]);    
 
     const cards: JSX.Element[] = [];
 
@@ -105,7 +87,8 @@ export function HomePage(): JSX.Element {
         }
 
         const card: JSX.Element = <Grid item xs={12} sm={4} lg={3} key={i}> 
-            <CardComponent title={movie.name} textDict={textDict} imgUrl={movie.image} actionTitle={"View More"} action={redirectToMovieDetailPage}/>
+            <CardComponent title={movie.name} textDict={textDict} imgUrl={getImgUrl(movie.image)} 
+                actionTitle={"View More"} action={redirectToMovieDetailPage}/>
         </Grid>
         cards.push(card);
     }
@@ -140,10 +123,7 @@ export function HomePage(): JSX.Element {
             </Container>
         }
 
-       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-            <Alert severity="error" onClose={handleCloseAlert}>Error fetching results! Try refreshing the page</Alert>
-      </Snackbar>
-
+       <ErrorNotification error={error}/>
         
     </div>
 }
@@ -162,7 +142,4 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-
-function Alert(props: AlertProps) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
+ 

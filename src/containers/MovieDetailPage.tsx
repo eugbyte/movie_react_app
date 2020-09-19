@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Container, Typography, Snackbar } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { Movie } from "../models/Movie";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
@@ -8,7 +7,11 @@ import { useParams } from "react-router-dom";
 import { CardComponent } from "../components/CardComponent";
 import Grid from '@material-ui/core/Grid';
 import { fetchMoviesAsync } from "../store/thunks/movieThunk";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { ApiError } from "../models/ApiError";
+import { errorAction } from "../store/actions/errorAction";
+import { ACTIONS } from "../store/actionEnums";
+import { ErrorNotification } from "../components/ErrorNotification";
+import { getImgUrl } from "../components/PictureUrlDict";
 
 export function MovieDetailPage(): JSX.Element {
     const dispatch: Dispatch<any> = useDispatch(); 
@@ -27,21 +30,35 @@ export function MovieDetailPage(): JSX.Element {
     } 
 
     useEffect(() => {
-        // When the user refreshes the page, need to make the API call again. Otherwise just retrieve movies already loaded from the store
+        // When the user refreshes the page, need to make the API call again. 
+        // Otherwise just retrieve movies already loaded from the store through the home page
         if (immutableMovies.length === 0) {
             const action = fetchMoviesAsync();
             dispatch(action);
         }
-    }, [])
-    {/* <Typography color="primary" align="center" variant="h3">Movie Detail</Typography> */}
+    }, []);
+
+    // To handle the error incase user refreshes page, and receives error on GET request
+    // API Errors received if any
+    // To display error notification
+    const error: ApiError | Error | null = useSelector((action: RootState) => action.errorReducer.error) ?? null;
+    
+    movie.synopsis = setLineBreak(movie.synopsis);
 
     return <div> 
         <Grid container spacing={3} justify="center">
             <Grid item xs={5}>
-                <CardComponent title={movie.name} textDict={textDict} imgUrl={movie.image} showAccordion={true} accordionText={movie.synopsis} />
+                <CardComponent title={movie.name} textDict={textDict} imgUrl={getImgUrl(movie.image)} showAccordion={true} accordionText={movie.synopsis} />
             </Grid>
         </Grid> 
+        <ErrorNotification error={error}/>
     </div>
 
 
+}
+
+// Synopsis contains html <br /> tags
+// Convert each of it to \n
+function setLineBreak(text: string): string {
+    return text.replaceAll('<br />', '\n');
 }

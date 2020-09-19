@@ -36,7 +36,7 @@ export function CardComponent({title, textDict, imgUrl="", action, actionTitle="
             <CardMedia 
                 component="img"
                 //height="140"
-                className={classes.cardHeight}
+                className={showAccordion ? classes.maxCardHeight : classes.minCardHeight}
                 image={imgUrl}
                 title={imgUrl}/>
         </CardActionArea>
@@ -60,18 +60,19 @@ export function CardComponent({title, textDict, imgUrl="", action, actionTitle="
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header" >
-                        <Typography color="textSecondary">Show more</Typography>
+                        <Typography color="textSecondary">Synopsis</Typography>
                 </AccordionSummary>
-                <AccordionDetails>
-                    {accordionText}
+                <AccordionDetails style={{ whiteSpace: "pre-line" }}>
+                    <Typography align="justify" color="textSecondary" component="p">
+                        {accordionText}
+                    </Typography>
                 </AccordionDetails>
         </Accordion> 
         }
 
-
-        
     </Card>
 }
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -82,13 +83,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     minifiedDimensions: {
         maxWidth: 440,
-        height: 450
+        height: 500
     },
     expandedDimension: {
         width: 800,
     },
-    cardHeight: {
+    minCardHeight: {
         height: 200,
     },
+    maxCardHeight: {
+        maxHeight: 500
+    }
   })
 );
