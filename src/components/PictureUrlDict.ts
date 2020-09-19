@@ -6,7 +6,7 @@ export function getImgUrl(imageName: string): string {
         "movie4.jpg": "https://thebottomline.as.ucsb.edu/wp-content/uploads/2011/02/127-Hours-Wallpapers-1.jpg",
         "movie5.jpg": "https://images-na.ssl-images-amazon.com/images/I/51Mvri1KGhL.jpg",
         "movie6.jpg": "https://m.media-amazon.com/images/M/MV5BMTY3MzQyMjkwMl5BMl5BanBnXkFtZTcwMDk2OTE0OQ@@._V1_UY1200_CR90,0,630,1200_AL_.jpg",
-        "movie7.jpg": "https://images-na.ssl-images-amazon.com/images/I/618uZRUCKkL.jpg",
+        "movie7.jpg": "https://i.pinimg.com/originals/bd/5f/6f/bd5f6f1621de0dd3d15f05c5c08de069.jpg",
         "movie8.jpg": "https://cinemavault997567149.files.wordpress.com/2018/12/678b26cb7be7dbdbb92fbeee4941c51c.jpg?w=960&h=1280&crop=1"
     };
 

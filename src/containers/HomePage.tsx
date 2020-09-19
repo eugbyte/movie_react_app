@@ -17,6 +17,8 @@ import { ErrorNotification } from "../components/ErrorNotification";
 import { getImgUrl } from "../components/PictureUrlDict";
 
 export function HomePage(): JSX.Element {
+    document.title = "Home Page";
+
     const classes = useStyles();
     const dispatch: Dispatch<any> = useDispatch(); 
     const history = useHistory();  
@@ -71,6 +73,7 @@ export function HomePage(): JSX.Element {
         setMovies(cloneDeep(immutableMovies));
     }, [immutableMovies.length]);    
 
+    // Render the movie cards
     const cards: JSX.Element[] = [];
 
     for (let i = 0; i < movies.length; i++) {
@@ -82,50 +85,53 @@ export function HomePage(): JSX.Element {
         }
 
         const redirectToMovieDetailPage = () => {
-            console.log("redirecting...");
             history.push("movieDetail/" + movie.name);
         }
 
-        const card: JSX.Element = <Grid item xs={12} sm={4} lg={3} key={i}> 
+        const card: JSX.Element = <Grid item xs={12} sm={5} lg={4} key={i}> 
             <CardComponent title={movie.name} textDict={textDict} imgUrl={getImgUrl(movie.image)} 
                 actionTitle={"View More"} action={redirectToMovieDetailPage}/>
         </Grid>
         cards.push(card);
     }
 
-    return <div style={{ width: "100vw" }}>
+    return <Container maxWidth="lg">
         <Typography color="primary" align="center" variant="h3">Home</Typography>
         
         { movies.length > 0 &&
         <div>
-            <Grid container spacing={1} justify="center">
+            <Grid container spacing={2} justify="center">
                 
-                <Grid item xs={3}>
-                        <SelectComponent title={"Year"} state={year} options={yearOptions} handleChange={handleChangeYear} />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <SelectComponent title={"Genre"} state={genre} options={genreOptions} handleChange={handleChangeGenre} />
-                    </Grid>
+                <Grid item xs={2}>
+                    <SelectComponent title={"Year"} state={year} options={yearOptions} handleChange={handleChangeYear} />
+                </Grid>
+                <Grid item xs={2}>
+                    <SelectComponent title={"Genre"} state={genre} options={genreOptions} handleChange={handleChangeGenre} />
+                </Grid>
                 <Grid item xs={6}></Grid>
             </Grid>
+            <br/>
             <Grid
                 className={classes.fullWidth}
                 container
-                justify="center"                
+                justify="flex-start"                
                 spacing={2} >   
                 {cards}                 
             </Grid>     
         </div>
         }
         { immutableMovies.length === 0 && (!error) &&
-            <Container>
-                <CircularProgress/>
-            </Container>
+                <Grid container direction="row"
+                    alignItems="flex-end" justify="center">
+                        <div style={{ display: "block", height:"200px" }}></div>
+                        <CircularProgress size={80}/>
+                    
+                </Grid>
         }
 
        <ErrorNotification error={error}/>
         
-    </div>
+    </Container>
 }
 
 const useStyles = makeStyles((theme: Theme) =>

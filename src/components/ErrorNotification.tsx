@@ -27,7 +27,6 @@ export function ErrorNotification({error, autoHideDuration=6000}: IProp): JSX.El
 
     useEffect(()=> {
         if (error) {
-            console.log("in HomePage. Errors:", error);
             setOpenAlert(true);
         }
     }, [error]);

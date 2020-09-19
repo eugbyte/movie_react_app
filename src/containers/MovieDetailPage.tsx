@@ -8,10 +8,9 @@ import { CardComponent } from "../components/CardComponent";
 import Grid from '@material-ui/core/Grid';
 import { fetchMoviesAsync } from "../store/thunks/movieThunk";
 import { ApiError } from "../models/ApiError";
-import { errorAction } from "../store/actions/errorAction";
-import { ACTIONS } from "../store/actionEnums";
 import { ErrorNotification } from "../components/ErrorNotification";
 import { getImgUrl } from "../components/PictureUrlDict";
+import { Container } from "@material-ui/core";
 
 export function MovieDetailPage(): JSX.Element {
     const dispatch: Dispatch<any> = useDispatch(); 
@@ -45,14 +44,14 @@ export function MovieDetailPage(): JSX.Element {
     
     movie.synopsis = setLineBreak(movie.synopsis);
 
-    return <div> 
+    return <Container> 
         <Grid container spacing={3} justify="center">
-            <Grid item xs={5}>
+            <Grid item >
                 <CardComponent title={movie.name} textDict={textDict} imgUrl={getImgUrl(movie.image)} showAccordion={true} accordionText={movie.synopsis} />
             </Grid>
         </Grid> 
         <ErrorNotification error={error}/>
-    </div>
+    </Container>
 
 
 }

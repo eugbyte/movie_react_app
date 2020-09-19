@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#fff"
     },
     minifiedDimensions: {
-        maxWidth: 440,
+        maxWidth: 500,
         height: 500
     },
     expandedDimension: {
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
         height: 200,
     },
     maxCardHeight: {
-        maxHeight: 500
+        maxHeight: 400
     }
   })
 );

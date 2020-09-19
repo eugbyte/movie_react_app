@@ -45,7 +45,6 @@ export function fetchMoviesAsync(): ThunkAction<Promise<void>, {}, {}, IMovieAct
             const movies: Movie[] = await response.json();
             dispatch({ type: ACTIONS.FETCH_MOVIES_RECEIVED, httpMessages: [HTTP.GET_OK], movies: movies });
         } catch (error) {
-            console.log(error);
             dispatch(errorAction(HTTP.GET_ERROR, error as Error));
         }
     }

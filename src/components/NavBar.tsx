@@ -19,11 +19,6 @@ export function NavBar() {
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
               <Button color="inherit" ><NavLink to="/" className={classes.navLink} >Home</NavLink></Button>
-                {/* <Button color="inherit">
-                  <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                </NavDropdown>
-                </Button> */}
               </Nav>          
           </Navbar.Collapse>
       </Navbar>
