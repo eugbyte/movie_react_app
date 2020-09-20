@@ -1,3 +1,5 @@
+[Website Quick Look](http://movie-react-app-2.s3-website-ap-southeast-1.amazonaws.com)
+
 ## Features
 1. API GET request to fetch movies
 2. Error handling and retry policy
