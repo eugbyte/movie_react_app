@@ -6,19 +6,19 @@ const initialState : IMovieAction = {
     type: "",
     movie: null,
     movies: [],
-    messages: [],
-    httpMessages: []
+    message: "",
+    httpMessage: ""
 }
 
 export function movieReducer(prevState=initialState, action: IMovieAction): IMovieAction {
     let newState: IMovieAction = cloneDeep(prevState);
 
     newState.type = action.type;
-    newState.messages = newState.messages?.concat(action.messages ?? []) as string[];
-    newState.httpMessages = newState.httpMessages?.concat(action.httpMessages ?? []) as string[];
+    newState.message = action.message + " " + (new Date()).toString();
+    newState.message = action.message + " " + (new Date()).toString();
 
-    console.log("in bidReducer. latest message:", newState.messages[(newState.messages?.length ?? 1) - 1]);
-    console.log("in bidReducer. latest httpMessage", newState.httpMessages[(newState.httpMessages?.length ?? 1) - 1]);
+    console.log("in bidReducer. latest message:", newState.message);
+    console.log("in bidReducer. latest httpMessage", newState.httpMessage);
 
     switch(action.type) {
         case(ACTIONS.FETCH_MOVIES_REQUEST):

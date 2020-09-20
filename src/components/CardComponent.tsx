@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     minifiedDimensions: {
         maxWidth: 500,
-        height: 500
+        height: 470
     },
     expandedDimension: {
         width: 800,

@@ -10,13 +10,13 @@ export interface IMovieAction extends Action {
     type: string;
     movie?: Movie | null;
     movies?: Movie[];
-    messages?: string[];    // All internal messages
-    httpMessages?: string[];    //All message relating to API calls
+    message?: string;    // All internal messages
+    httpMessage?: string;    //All message relating to API calls
 }
 
 export function fetchMoviesAsync(): ThunkAction<Promise<void>, {}, {}, IMovieAction | IErrorAction> {
     return async (dispatch: ThunkDispatch<{}, {}, IMovieAction | IErrorAction>) => {
-        dispatch({ type: ACTIONS.FETCH_MOVIES_REQUEST, messages: ["Making GET Request to fetch movies"]});
+        dispatch({ type: ACTIONS.FETCH_MOVIES_REQUEST, message: "Making GET Request to fetch movies" });
 
         let polls = 0;
         let maxRetry = 2;
@@ -29,7 +29,7 @@ export function fetchMoviesAsync(): ThunkAction<Promise<void>, {}, {}, IMovieAct
             polls += 1;
 
             while (!response.ok && polls < maxRetry) {
-                console.log("ERROR", response.statusText, "retrying now");
+                console.log("ERROR ", response.statusText, " retrying now");
                 response = await fetch(url, {
                     headers: { 'Content-Type': 'application/json' }
                 });
