@@ -1,4 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Features
+1. API GET request to fetch movies
+2. Error handling and retry policy
+3. Filter movies by year and category
+  
+---
 
 ## Available Scripts
 
@@ -22,7 +27,3 @@ You will also see any lint errors in the console.
 3. Material-ui
 4. React-Bootstrap
 
-#### Features
-1. API GET request to fetch movies
-2. Error handling and retry policy
-3. Filter movies by year and category
