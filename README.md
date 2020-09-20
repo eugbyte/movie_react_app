@@ -1,9 +1,7 @@
-#### Features
+## Features
 1. API GET request to fetch movies
 2. Error handling and retry policy
 3. Filter movies by year and category
-  
----
 
 ## Available Scripts
 
