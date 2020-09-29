@@ -98,7 +98,7 @@ export function HomePage(): JSX.Element {
     return <Container maxWidth="lg">
         <Typography color="primary" align="center" variant="h3">Home</Typography>
         
-        { movies.length > 0 &&
+        { immutableMovies.length > 0 &&
         <div>
             <Grid container spacing={2} justify="center">
                 
